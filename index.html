@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>こんちゅうずかん</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>🐞 こんちゅう ずかん 🦋</h1>
+  </header>
+
+  <main id="view-zukan" class="view">
+    <button id="todayCard" class="today-card"></button>
+    <div id="categoryTabs" class="category-tabs"></div>
+    <div id="cardsGrid" class="cards"></div>
+  </main>
+
+  <main id="view-quiz" class="view" hidden>
+    <div class="quiz-top">
+      <div id="quizBadge" class="quiz-badge" hidden>🏆 ぜんぶ あつめたよ！</div>
+      <button id="quizRestartBtn" class="quiz-restart-btn">↻ もういちど</button>
+    </div>
+    <div id="quizQuestion" class="quiz-question"></div>
+    <div id="quizChoices" class="quiz-choices"></div>
+    <div id="quizFeedback" class="quiz-feedback" hidden></div>
+    <button id="quizResetProgressBtn" class="quiz-reset-link">ぜんぶの「できた」シールを はがす</button>
+  </main>
+
+  <main id="view-favorites" class="view" hidden>
+    <div id="cardsFavGrid" class="cards"></div>
+    <p id="favEmpty" class="fav-empty" hidden>まだ おきにいりが ないよ。<br>ハートを タップしてね。</p>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-view="zukan">
+      <span class="nav-icon">📖</span><span>ずかん</span>
+    </button>
+    <button class="nav-btn" data-view="quiz">
+      <span class="nav-icon">❓</span><span>くいず</span>
+    </button>
+    <button class="nav-btn" data-view="favorites">
+      <span class="nav-icon">⭐</span><span>おきにいり</span>
+    </button>
+  </nav>
+
+  <div id="detail" class="detail-overlay" hidden>
+    <div class="detail-card">
+      <div id="detailIcon" class="detail-icon"></div>
+      <div class="detail-body">
+        <div id="detailName" class="detail-name"></div>
+        <div id="detailScientific" class="detail-scientific"></div>
+        <div id="detailDesc" class="detail-desc"></div>
+        <div class="detail-buttons">
+          <button id="speakBtn" class="action-btn speak-btn">🔊 よみあげ</button>
+          <button id="favBtn" class="action-btn fav-btn">🤍 おきにいり</button>
+          <button id="closeBtn" class="action-btn close-btn-full">✕ とじる</button>
+        </div>
+        <button id="creditsBtn" class="credits-link">ⓘ しゃしんについて</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="credits" class="credits-overlay" hidden>
+    <div class="credits-card">
+      <button id="creditsCloseBtn" class="close-btn" aria-label="とじる">✕</button>
+      <h2>しゃしんについて</h2>
+      <p class="credits-intro">写真はすべて Wikimedia Commons の公開・フリーライセンス画像を使用しています。撮影者・ライセンスの一覧は下記のとおりです。</p>
+      <div id="creditsList" class="credits-list"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
