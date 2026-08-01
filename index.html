@@ -20,6 +20,7 @@
   <main id="view-quiz" class="view" hidden>
     <div class="quiz-top">
       <div id="quizBadge" class="quiz-badge" hidden>🏆 ぜんぶ あつめたよ！</div>
+      <div id="quizProgress" class="quiz-progress"></div>
       <button id="quizRestartBtn" class="quiz-restart-btn">↻ もういちど</button>
     </div>
     <div id="quizQuestion" class="quiz-question"></div>
@@ -27,6 +28,16 @@
     <div id="quizFeedback" class="quiz-feedback" hidden></div>
     <button id="quizResetProgressBtn" class="quiz-reset-link">ぜんぶの「できた」シールを はがす</button>
   </main>
+
+  <div id="quizResetConfirm" class="confirm-overlay" hidden>
+    <div class="confirm-card">
+      <p class="confirm-message">ぜんぶの「できた」シールを<br>はがしますか？</p>
+      <div class="confirm-buttons">
+        <button id="quizResetConfirmYes" class="action-btn confirm-yes-btn">はがす</button>
+        <button id="quizResetConfirmNo" class="action-btn confirm-no-btn">やめる</button>
+      </div>
+    </div>
+  </div>
 
   <main id="view-favorites" class="view" hidden>
     <div id="cardsFavGrid" class="cards"></div>

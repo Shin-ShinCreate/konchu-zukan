@@ -266,6 +266,7 @@ main.view {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .detail-icon img {
@@ -303,6 +304,7 @@ main.view {
   padding: 16px 18px;
   margin-bottom: 20px;
   max-width: 480px;
+  cursor: pointer;
 }
 
 .detail-buttons {
@@ -393,6 +395,15 @@ main.view {
   font-family: inherit;
 }
 
+.quiz-progress {
+  background: #eaf7ff;
+  color: #2e86ab;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+
 .quiz-question {
   background: #fff6df;
   border-radius: 16px;
@@ -434,6 +445,41 @@ main.view {
 .quiz-choice.wrong {
   border-color: #ff5252;
   box-shadow: 0 0 0 4px rgba(255, 82, 82, 0.25);
+}
+
+.quiz-choice:disabled {
+  opacity: 0.55;
+}
+
+/* ---- 紙吹雪 ---- */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 14px;
+  opacity: 0.9;
+  animation-name: confetti-fall;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(var(--rot, 360deg));
+    opacity: 0.3;
+  }
 }
 
 .quiz-feedback {
@@ -540,4 +586,57 @@ main.view {
   height: 36px;
   font-size: 18px;
   cursor: pointer;
+}
+
+/* ---- かくにんポップアップ ---- */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 45;
+}
+
+.confirm-overlay[hidden] {
+  display: none;
+}
+
+.confirm-overlay:not([hidden]) {
+  display: flex;
+}
+
+.confirm-card {
+  background: #fffef8;
+  border-radius: 20px;
+  padding: 28px 24px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.confirm-message {
+  font-size: 17px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.confirm-yes-btn {
+  background: #ff7a45;
+  color: #fff;
+  border: none;
+}
+
+.confirm-no-btn {
+  background: #fff;
+  color: #888;
+  border-color: #ddd;
 }
