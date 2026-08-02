@@ -527,6 +527,155 @@ main.view {
   font-family: inherit;
 }
 
+/* ---- かぞえてみよう ---- */
+.count-stage {
+  position: relative;
+  background: linear-gradient(180deg, #eafbe7 0%, #d3f2cd 100%);
+  border: 3px solid #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  min-height: 46vh;
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* 写真の背景色はバラバラなので、白い丸シールに入れて見た目をそろえる */
+.count-bug {
+  position: relative;
+  width: clamp(76px, 22vw, 116px);
+  height: clamp(76px, 22vw, 116px);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transform: rotate(var(--rot, 0deg));
+  transition: transform 0.15s ease;
+}
+
+/* 番号シールがはみ出せるよう、丸く切り抜くのはボタンではなく画像側 */
+.count-bug img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
+}
+
+.count-bug.tapped {
+  animation: count-wiggle 0.4s ease;
+}
+
+@keyframes count-wiggle {
+  0% {
+    transform: rotate(var(--rot, 0deg)) scale(1);
+  }
+  40% {
+    transform: rotate(var(--rot, 0deg)) scale(1.18);
+  }
+  100% {
+    transform: rotate(var(--rot, 0deg)) scale(1);
+  }
+}
+
+.count-num-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ff9500;
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 30px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.count-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.count-choice {
+  width: clamp(52px, 15vw, 66px);
+  height: clamp(52px, 15vw, 66px);
+  border-radius: 50%;
+  border: 3px solid #ffd9a8;
+  background: #fff;
+  color: #ff7a45;
+  font-family: inherit;
+  font-size: clamp(24px, 7vw, 30px);
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.count-choice:active {
+  transform: scale(0.92);
+}
+
+.count-choice.correct {
+  background: #4caf50;
+  border-color: #4caf50;
+  color: #fff;
+}
+
+.count-choice.wrong {
+  background: #ffdcdc;
+  border-color: #ff5252;
+  color: #d64545;
+}
+
+.count-choice:disabled {
+  opacity: 0.55;
+}
+
+.count-hint {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  margin: 16px 0 0;
+}
+
+/* ---- オフライン保存 ---- */
+.offline-btn {
+  display: block;
+  margin: 8px auto 0;
+  border: 2px solid #cdeeff;
+  background: #fff;
+  color: #2e86ab;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.offline-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.offline-status {
+  text-align: center;
+  color: #888;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+
 /* ---- おきにいり(からっぽ表示) ---- */
 .fav-empty {
   text-align: center;

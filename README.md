@@ -33,19 +33,21 @@ npx serve .
 - **フルスクリーン詳細**: 写真タップ=名前だけ読み上げ、説明文タップ=説明だけ読み上げ、開いた時/よみあげボタン=両方連続で読み上げ
 - **できたシール・おきにいり**: 「できた」はクイズに正解したときだけ付与(単に見ただけでは付かない仕様)。おきにいりはハートでいつでもON/OFF
 - **クイズ**: 4択、間違えても1回だけ再挑戦可、正解でランダムなセリフ+紙吹雪演出、進捗表示「あと〇こでコンプリート」。進捗リセットは確認ポップアップ必須
+- **かぞえてみよう**: 同じ虫が1〜5匹並び「なんびき いるかな?」を数字ボタンで回答。虫をタップすると押した順に番号シールが付いて「いち・に・さん…」と読み上げ。クイズ同様1回だけやり直し可、正解数はセッション中のみ表示(「できた」シールには影響しない)。写真自体に2匹以上写っている4種(ミヤマクワガタ・ヒラタクワガタ・ナナホシテントウ・スズムシ)は数が合わなくなるため出題しない
 - **写真クレジット**: 詳細画面の小さなリンクから全65種の撮影者・ライセンス・出典を確認可能
-- **PWA**: `manifest.json`+アイコン4種でホーム画面に追加可能
+- **PWA / オフライン**: `manifest.json`+アイコン4種でホーム画面に追加可能。Service Worker(`sw.js`)でアプリ本体を自動キャッシュし、ずかん画面下の「📥 オフラインで つかえるように する」で写真・音声を含む全アセット(約400ファイル)をまとめて保存できる
 
 ## 技術メモ(次にこのプロジェクトを触るときのために)
 
-- **音声ファイルは用途別に分割**(`audio/name-<id>.wav`, `audio/desc-<id>.wav`, `audio/quiz-<id>.wav`, `audio/correct-1〜4.wav`, `audio/wrong-retry.wav`)。名前+説明の結合1ファイル方式は廃止済み。VOICEVOXに渡すテキストは表示用の分かち書きスペースを除去してから合成すること(そのまま渡すと間延びした読み方になる)
+- **音声ファイルは用途別に分割**(`audio/name-<id>.wav`, `audio/desc-<id>.wav`, `audio/quiz-<id>.wav`, `audio/correct-1〜4.wav`, `audio/wrong-retry.wav`, かぞえてみよう用の `audio/count-q.wav`(「なんびき いるかな?」)と `audio/count-1〜5.wav`(「いち」〜「ご」))。名前+説明の結合1ファイル方式は廃止済み。VOICEVOXに渡すテキストは表示用の分かち書きスペースを除去してから合成すること(そのまま渡すと間延びした読み方になる)
 - **写真はWikimediaのサムネイルURLを使用**(`.../thumb/x/xx/ファイル名/{width}px-ファイル名`形式)。ホットリンクで許可される幅は **20/40/60/120/250/330/500/960/1280/1920/3840px のみ**(それ以外は400エラー)。用途別に120(きょうの虫)/250(カード・クイズ)/500(詳細)pxを使用。失敗時は元画像→プレースホルダーの順にフォールバック
 - **`region`フィールド**(`"japan"`/`"world"`)はカテゴリ分類とは別軸で、地域バッジ表示にのみ使用
+- **Service Worker(`sw.js`)のキャッシュ方針**: アプリ本体(HTML/CSS/JS/アイコン)は install 時に事前キャッシュ+以降は stale-while-revalidate なので、`CACHE_VERSION` を上げ忘れても次回アクセスで最新になる。音声(約20MB)とWikimedia写真は量が多いため事前キャッシュせず、読み込んだものをキャッシュファーストで再利用。まとめて保存するボタンは `script.js` から `ASSET_CACHE_NAME` を直接 open して入れているので、**この定数名は `sw.js` の `ASSET_CACHE` と必ず一致させること**
 - 音声・写真の再生成スクリプトは `scripts/` ではなくその都度スクラッチで作成しているため、再生成が必要な場合は `~/.claude/skills/zukan-app-builder/scripts/generate_voicevox_audio.js` を参考に
 - Gitのユーザー名/メールはリポジトリローカル設定(`--global`ではない)。公開はGitHub Pages(`main`ブランチ / ルート)
 
 ## 昆虫を追加・修正したい場合
 
-`script.js` の `INSECTS` 配列に、`id` / `name` / `scientificName` / `region`("japan" か "world") / `category`(カテゴリタブのid) / `desc` / `image`(`url` / `license` / `author` / `sourcePage`、任意で`fit`)を持つオブジェクトを追加します。画像はWikimedia CommonsのAPIで実在確認したURLのみを使うこと(推測URLは不可)。追加したら対応する音声(`name-<id>.wav`/`desc-<id>.wav`/`quiz-<id>.wav`)をVOICEVOXで生成するのを忘れずに。
+`script.js` の `INSECTS` 配列に、`id` / `name` / `scientificName` / `region`("japan" か "world") / `category`(カテゴリタブのid) / `desc` / `image`(`url` / `license` / `author` / `sourcePage`、任意で`fit`)を持つオブジェクトを追加します。**写真に2匹以上写っている場合は `multiInPhoto: true` を付けること**(「かぞえてみよう」は1枚=1匹として並べるため、付けないと数が合わなくなる)。画像はWikimedia CommonsのAPIで実在確認したURLのみを使うこと(推測URLは不可)。追加したら対応する音声(`name-<id>.wav`/`desc-<id>.wav`/`quiz-<id>.wav`)をVOICEVOXで生成するのを忘れずに。
 
 同種のアプリを新規に作る場合は `~/.claude/skills/zukan-app-builder/` スキルにワークフロー一式(写真検証・きっず版UIテンプレート・VOICEVOX生成・GitHub Pages公開手順)がまとまっています。

@@ -24,6 +24,8 @@
     <button id="todayCard" class="today-card"></button>
     <div id="categoryTabs" class="category-tabs"></div>
     <div id="cardsGrid" class="cards"></div>
+    <button id="offlineBtn" class="offline-btn">📥 オフラインで つかえるように する</button>
+    <p id="offlineStatus" class="offline-status" hidden></p>
   </main>
 
   <main id="view-quiz" class="view" hidden>
@@ -48,6 +50,18 @@
     </div>
   </div>
 
+  <main id="view-count" class="view" hidden>
+    <div class="quiz-top">
+      <div id="countScore" class="quiz-progress"></div>
+      <button id="countReplayBtn" class="quiz-restart-btn">🔊 もういちど</button>
+    </div>
+    <div class="quiz-question">なんびき いるかな？</div>
+    <div id="countStage" class="count-stage"></div>
+    <div id="countChoices" class="count-choices"></div>
+    <div id="countFeedback" class="quiz-feedback" hidden></div>
+    <p class="count-hint">むしを タップすると 1つずつ かぞえられるよ</p>
+  </main>
+
   <main id="view-favorites" class="view" hidden>
     <div id="cardsFavGrid" class="cards"></div>
     <p id="favEmpty" class="fav-empty" hidden>まだ おきにいりが ないよ。<br>ハートを タップしてね。</p>
@@ -59,6 +73,9 @@
     </button>
     <button class="nav-btn" data-view="quiz">
       <span class="nav-icon">❓</span><span>くいず</span>
+    </button>
+    <button class="nav-btn" data-view="count">
+      <span class="nav-icon">🔢</span><span>かぞえる</span>
     </button>
     <button class="nav-btn" data-view="favorites">
       <span class="nav-icon">⭐</span><span>おきにいり</span>

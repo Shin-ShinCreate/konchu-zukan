@@ -8,16 +8,16 @@ const INSECTS = [
   { id: "nokogiri-kuwagata", name: "ノコギリクワガタ", scientificName: "Prosopocoilus inclinatus", region: "japan", category: "kabuto-kuwagata",
     desc: "のこぎりみたいな ぎざぎざの はさみが あるよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/1/14/Prosopocoilus_inclinatus_by_OpenCage.jpg", license: "CC BY-SA 2.5", author: "OpenCage (opencage.info)", sourcePage: "https://commons.wikimedia.org/wiki/File:Prosopocoilus_inclinatus_by_OpenCage.jpg" } },
-  { id: "miyama-kuwagata", name: "ミヤマクワガタ", scientificName: "Lucanus maculifemoratus", region: "japan", category: "kabuto-kuwagata",
+  { id: "miyama-kuwagata", name: "ミヤマクワガタ", scientificName: "Lucanus maculifemoratus", region: "japan", category: "kabuto-kuwagata", multiInPhoto: true,
     desc: "やまに すんでいて、つのが みっつに わかれているよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Lucanus_maculifemoratus_maculifemoratus_sjh.jpg", license: "CC BY-SA 2.5", author: "Shawn Hanrahan", sourcePage: "https://commons.wikimedia.org/wiki/File:Lucanus_maculifemoratus_maculifemoratus_sjh.jpg" } },
-  { id: "hirata-kuwagata", name: "ヒラタクワガタ", scientificName: "Dorcus titanus", region: "japan", category: "kabuto-kuwagata",
+  { id: "hirata-kuwagata", name: "ヒラタクワガタ", scientificName: "Dorcus titanus", region: "japan", category: "kabuto-kuwagata", multiInPhoto: true,
     desc: "からだが ぺったんこで、はさみが つよいよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Dorcus_titanus_sjh.jpg", license: "CC BY-SA 2.5", author: "No machine-readable author provided. Kugamazog~commonswiki assumed (based on copyright claims).", sourcePage: "https://commons.wikimedia.org/wiki/File:Dorcus_titanus_sjh.jpg" } },
   { id: "ko-kuwagata", name: "コクワガタ", scientificName: "Dorcus rectus", region: "japan", category: "kabuto-kuwagata",
     desc: "ちいさいけど げんきな くわがたむしだよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/2/22/Dorcus_rectus_01.JPG", license: "CC BY-SA 3.0", author: "Σ64", sourcePage: "https://commons.wikimedia.org/wiki/File:Dorcus_rectus_01.JPG" } },
-  { id: "nanahoshi-tentou", name: "ナナホシテントウ", scientificName: "Coccinella septempunctata", region: "japan", category: "sonota",
+  { id: "nanahoshi-tentou", name: "ナナホシテントウ", scientificName: "Coccinella septempunctata", region: "japan", category: "sonota", multiInPhoto: true,
     desc: "あかい せなかに くろい てんてんが ななつ あるよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/b/be/%E3%83%8A%E3%83%8A%E3%83%9B%E3%82%B7%E3%83%86%E3%83%B3%E3%83%88%E3%82%A6_Coccinella_septempunctata.JPG", license: "CC BY-SA 3.0", author: "Alpsdake", sourcePage: "https://commons.wikimedia.org/wiki/File:%E3%83%8A%E3%83%8A%E3%83%9B%E3%82%B7%E3%83%86%E3%83%B3%E3%83%88%E3%82%A6_Coccinella_septempunctata.JPG" } },
   { id: "monshiro-chou", name: "モンシロチョウ", scientificName: "Pieris rapae", region: "japan", category: "chou-ga",
@@ -104,7 +104,7 @@ const INSECTS = [
   { id: "ko-kamakiri", name: "コカマキリ", scientificName: "Statilia maculata", region: "japan", category: "batta-kamakiri",
     desc: "ちいさめの からだの かまきりさんだよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/e/ed/Asian_Jumping_Mantis%2C_Taean%2C_KR-GN%2C_KR_imported_from_iNaturalist_photo_2801875.jpg", license: "CC BY 4.0", author: "Kim, Hyun-tae", sourcePage: "https://commons.wikimedia.org/wiki/File:Asian_Jumping_Mantis,_Taean,_KR-GN,_KR_imported_from_iNaturalist_photo_2801875.jpg" } },
-  { id: "suzumushi", name: "スズムシ", scientificName: "Meloimorpha japonica", region: "japan", category: "batta-kamakiri",
+  { id: "suzumushi", name: "スズムシ", scientificName: "Meloimorpha japonica", region: "japan", category: "batta-kamakiri", multiInPhoto: true,
     desc: "りーんりーんって すずの おとで なくよ。",
     image: { url: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Suzumushi.jpg", license: "CC BY-SA 3.0", author: "Monami", sourcePage: "https://commons.wikimedia.org/wiki/File:Suzumushi.jpg" } },
   { id: "matsumushi", name: "マツムシ", scientificName: "Xenogryllus marmoratus", region: "japan", category: "batta-kamakiri",
@@ -220,6 +220,7 @@ const favEmptyEl = document.getElementById("favEmpty");
 
 const viewZukanEl = document.getElementById("view-zukan");
 const viewQuizEl = document.getElementById("view-quiz");
+const viewCountEl = document.getElementById("view-count");
 const viewFavoritesEl = document.getElementById("view-favorites");
 const navBtns = [...document.querySelectorAll(".nav-btn")];
 
@@ -249,6 +250,15 @@ const quizResetConfirmEl = document.getElementById("quizResetConfirm");
 const quizResetConfirmYesEl = document.getElementById("quizResetConfirmYes");
 const quizResetConfirmNoEl = document.getElementById("quizResetConfirmNo");
 
+const countScoreEl = document.getElementById("countScore");
+const countReplayBtnEl = document.getElementById("countReplayBtn");
+const countStageEl = document.getElementById("countStage");
+const countChoicesEl = document.getElementById("countChoices");
+const countFeedbackEl = document.getElementById("countFeedback");
+
+const offlineBtnEl = document.getElementById("offlineBtn");
+const offlineStatusEl = document.getElementById("offlineStatus");
+
 const PLACEHOLDER_SVG =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(
@@ -268,9 +278,11 @@ function wikimediaThumbUrl(url, width) {
   return `https://upload.wikimedia.org/wikipedia/commons/thumb/${d1}/${d2}/${filename}/${width}px-${filename}`;
 }
 
-function photoImg(insect, className, width) {
+// fitOverride: 丸く切り抜くかぞえてみようのように、データ側の fit ではなく
+// 呼び出し側で object-fit を決めたいときに指定する
+function photoImg(insect, className, width, fitOverride) {
   const rawUrl = insect.image && insect.image.url ? insect.image.url : null;
-  const fit = insect.image && insect.image.fit ? insect.image.fit : "contain";
+  const fit = fitOverride || (insect.image && insect.image.fit ? insect.image.fit : "contain");
   if (!rawUrl) {
     return `<img src="${PLACEHOLDER_SVG}" alt="${insect.name}" class="${className}" style="object-fit: ${fit};" loading="lazy">`;
   }
@@ -408,15 +420,17 @@ function renderFavorites() {
 }
 
 // ---- 下部ナビ(ビュー切り替え) ----
-const VIEWS = { zukan: viewZukanEl, quiz: viewQuizEl, favorites: viewFavoritesEl };
+const VIEWS = { zukan: viewZukanEl, quiz: viewQuizEl, count: viewCountEl, favorites: viewFavoritesEl };
 function switchView(name) {
   currentView = name;
+  stopAudio();
   Object.entries(VIEWS).forEach(([key, el]) => {
     el.hidden = key !== name;
   });
   navBtns.forEach((btn) => btn.classList.toggle("active", btn.dataset.view === name));
   if (name === "favorites") renderFavorites();
   if (name === "quiz") startQuiz();
+  if (name === "count") startCountGame();
 }
 navBtns.forEach((btn) => btn.addEventListener("click", () => switchView(btn.dataset.view)));
 
@@ -492,6 +506,22 @@ function playQuizRetrySequence(insect) {
   retryAudio.play().catch(() => {
     speakText(retryText);
     speakQueued(questionText);
+  });
+}
+
+// 「てんとうむし」→「なんびき いるかな？」の順に読み上げる(かぞえてみよう用)
+function playNameThenCountQuestion(insect) {
+  stopAudio();
+  const nameAudio = new Audio(`audio/name-${insect.id}.wav`);
+  currentAudio = nameAudio;
+  nameAudio.addEventListener("ended", () => {
+    const qAudio = new Audio("audio/count-q.wav");
+    currentAudio = qAudio;
+    qAudio.play().catch(() => speakQueued(COUNT_QUESTION_TEXT));
+  });
+  nameAudio.play().catch(() => {
+    speakText(insect.name);
+    speakQueued(COUNT_QUESTION_TEXT);
   });
 }
 
@@ -696,6 +726,179 @@ quizResetConfirmYesEl.addEventListener("click", () => {
   renderFavorites();
   updateQuizStatus();
   quizResetConfirmEl.hidden = true;
+});
+
+// ---- かぞえてみよう ----
+// 1〜5匹の同じ虫を並べて「なんびき いるかな？」を当てるモード。
+// 虫をタップすると「いち・に・さん…」と数えられる(数え上げの練習)。
+const COUNT_MAX = 5;
+const COUNT_QUESTION_TEXT = "なんびき いるかな？";
+const COUNT_NUMBER_WORDS = ["いち", "に", "さん", "よん", "ご"];
+const COUNT_ANSWER_WORDS = ["いっぴき", "にひき", "さんびき", "よんひき", "ごひき"];
+
+// 写真に2匹以上写っている種(multiInPhoto)は、1枚=1匹として数えられないので出題しない
+const COUNTABLE_INSECTS = INSECTS.filter((i) => !i.multiInPhoto);
+
+let countCurrent = null;
+let countScore = 0;
+
+function renderCountScore() {
+  countScoreEl.textContent = `せいかい ${countScore}こ`;
+}
+function countStageHTML(insect, total) {
+  let html = "";
+  for (let i = 0; i < total; i++) {
+    // 少しだけ傾きをつけて、同じ写真の並びが単調に見えないようにする
+    const rot = Math.round(Math.random() * 30 - 15);
+    html += `<button class="count-bug" data-index="${i}" style="--rot:${rot}deg">${photoImg(insect, "count-bug-img", 250, "cover")}</button>`;
+  }
+  return html;
+}
+function startCountGame() {
+  renderCountScore();
+  nextCountRound();
+}
+function nextCountRound() {
+  const insect = COUNTABLE_INSECTS[Math.floor(Math.random() * COUNTABLE_INSECTS.length)];
+  const total = 1 + Math.floor(Math.random() * COUNT_MAX);
+  countCurrent = { insect, total, answered: false, attempt: 0, tapped: 0 };
+
+  countFeedbackEl.hidden = true;
+  countStageEl.innerHTML = countStageHTML(insect, total);
+  countChoicesEl.innerHTML = Array.from(
+    { length: COUNT_MAX },
+    (_, i) => `<button class="count-choice" data-num="${i + 1}">${i + 1}</button>`
+  ).join("");
+
+  playNameThenCountQuestion(insect);
+}
+// 虫をタップ: 押した順に番号シールを付けて「いち・に・さん…」と読み上げる
+countStageEl.addEventListener("click", (e) => {
+  const bug = e.target.closest(".count-bug");
+  if (!bug || !countCurrent || bug.classList.contains("tapped")) return;
+  countCurrent.tapped += 1;
+  const n = countCurrent.tapped;
+  bug.classList.add("tapped");
+  bug.insertAdjacentHTML("beforeend", `<span class="count-num-badge">${n}</span>`);
+  playQuizAudio(`audio/count-${n}.wav`, COUNT_NUMBER_WORDS[n - 1]);
+});
+function handleCountCorrect(btn) {
+  countCurrent.answered = true;
+  btn.classList.add("correct");
+  [...countChoicesEl.children].forEach((child) => (child.disabled = true));
+
+  const phraseIndex = Math.floor(Math.random() * CORRECT_PHRASES.length);
+  countFeedbackEl.hidden = false;
+  countFeedbackEl.textContent = `🎉 ${CORRECT_PHRASES[phraseIndex]} ${COUNT_ANSWER_WORDS[countCurrent.total - 1]}！`;
+  countFeedbackEl.className = "quiz-feedback correct";
+  playQuizAudio(`audio/correct-${phraseIndex + 1}.wav`, CORRECT_PHRASES[phraseIndex]);
+  triggerConfetti();
+
+  countScore += 1;
+  renderCountScore();
+  setTimeout(nextCountRound, 2000);
+}
+function handleCountWrong(btn) {
+  btn.classList.add("wrong");
+  btn.disabled = true;
+
+  if (countCurrent.attempt === 0) {
+    // くいずと同じく、まちがえても1回だけやり直せる
+    countCurrent.attempt = 1;
+    countFeedbackEl.hidden = false;
+    countFeedbackEl.textContent = "もういちど かぞえてみよう。";
+    countFeedbackEl.className = "quiz-feedback wrong";
+    playQuizAudio("audio/wrong-retry.wav", "もういちど。");
+  } else {
+    countCurrent.answered = true;
+    [...countChoicesEl.children].forEach((child) => {
+      child.disabled = true;
+      if (Number(child.dataset.num) === countCurrent.total) child.classList.add("correct");
+    });
+    countFeedbackEl.hidden = false;
+    countFeedbackEl.textContent = `ざんねん、${COUNT_ANSWER_WORDS[countCurrent.total - 1]} だよ`;
+    countFeedbackEl.className = "quiz-feedback wrong";
+    setTimeout(nextCountRound, 2200);
+  }
+}
+countChoicesEl.addEventListener("click", (e) => {
+  const btn = e.target.closest(".count-choice");
+  if (!btn || btn.disabled || !countCurrent || countCurrent.answered) return;
+  if (Number(btn.dataset.num) === countCurrent.total) handleCountCorrect(btn);
+  else handleCountWrong(btn);
+});
+countReplayBtnEl.addEventListener("click", () => {
+  // 次の問題には進めず、いまの虫の名前と問題文を読み上げ直すだけ
+  if (countCurrent) playNameThenCountQuestion(countCurrent.insect);
+});
+
+// ---- オフライン対応(Service Worker + まとめてダウンロード) ----
+// キャッシュ名は sw.js の ASSET_CACHE と必ず合わせること
+const ASSET_CACHE_NAME = "konchu-zukan-assets-v1";
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {
+      /* file:// で開いた場合など、登録できない環境では何もしない */
+    });
+  });
+}
+
+function offlineAssetUrls() {
+  const urls = ["audio/wrong-retry.wav", "audio/count-q.wav"];
+  for (let i = 1; i <= 4; i++) urls.push(`audio/correct-${i}.wav`);
+  for (let i = 1; i <= COUNT_MAX; i++) urls.push(`audio/count-${i}.wav`);
+  INSECTS.forEach((insect) => {
+    urls.push(`audio/name-${insect.id}.wav`, `audio/desc-${insect.id}.wav`, `audio/quiz-${insect.id}.wav`);
+    const raw = insect.image && insect.image.url;
+    // 表示に使う3サイズ(きょうの虫120/カード・クイズ250/詳細500)をそろえて入れておく
+    if (raw) [120, 250, 500].forEach((w) => urls.push(wikimediaThumbUrl(raw, w)));
+  });
+  return urls;
+}
+
+async function cacheAllAssets() {
+  const cache = await caches.open(ASSET_CACHE_NAME);
+  const urls = offlineAssetUrls();
+  let done = 0;
+  let failed = 0;
+  const queue = [...urls];
+
+  async function worker() {
+    while (queue.length > 0) {
+      const url = queue.shift();
+      try {
+        if (!(await cache.match(url))) await cache.add(url);
+      } catch {
+        failed += 1; // 1つ失敗しても続ける(その分はオンライン時に取得される)
+      }
+      done += 1;
+      offlineStatusEl.textContent = `ダウンロードちゅう… ${done} / ${urls.length}`;
+    }
+  }
+  await Promise.all(Array.from({ length: 6 }, worker));
+  return { total: urls.length, failed };
+}
+
+offlineBtnEl.addEventListener("click", async () => {
+  if (!("caches" in window)) {
+    offlineStatusEl.hidden = false;
+    offlineStatusEl.textContent = "このブラウザでは オフライン保存が つかえません。";
+    return;
+  }
+  offlineBtnEl.disabled = true;
+  offlineStatusEl.hidden = false;
+  offlineStatusEl.textContent = "じゅんびちゅう…";
+  try {
+    const { total, failed } = await cacheAllAssets();
+    offlineStatusEl.textContent =
+      failed > 0
+        ? `${total - failed} / ${total} こ ほぞんしました(${failed}こは しっぱい)。`
+        : "✅ ぜんぶ ほぞんしました。でんぱが なくても あそべます。";
+  } catch {
+    offlineStatusEl.textContent = "ほぞんに しっぱいしました。もういちど ためしてください。";
+  }
+  offlineBtnEl.disabled = false;
 });
 
 // ---- 初期表示 ----
