@@ -201,6 +201,18 @@ main.view {
   color: #ff3b5c;
 }
 
+.region-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  line-height: 1;
+  padding: 4px 5px;
+  border-radius: 999px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 /* ---- 下部ナビ ---- */
 .bottom-nav {
   position: fixed;
@@ -287,6 +299,12 @@ main.view {
   font-size: clamp(24px, 7vw, 32px);
   font-weight: bold;
   margin: 4px 0 0;
+}
+
+.detail-region {
+  font-size: 13px;
+  color: #777;
+  margin: 2px 0 4px;
 }
 
 .detail-scientific {

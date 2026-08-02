@@ -226,6 +226,7 @@ const navBtns = [...document.querySelectorAll(".nav-btn")];
 const detailEl = document.getElementById("detail");
 const detailIconEl = document.getElementById("detailIcon");
 const detailNameEl = document.getElementById("detailName");
+const detailRegionEl = document.getElementById("detailRegion");
 const detailScientificEl = document.getElementById("detailScientific");
 const detailDescEl = document.getElementById("detailDesc");
 const closeBtn = document.getElementById("closeBtn");
@@ -256,10 +257,34 @@ const PLACEHOLDER_SVG =
     '<text x="50" y="55" font-size="40" text-anchor="middle">🐛</text></svg>'
   );
 
-function photoImg(insect, className) {
-  const src = insect.image && insect.image.url ? insect.image.url : PLACEHOLDER_SVG;
+// Wikimediaはホットリンクでのサムネイル生成幅を限定している(直接リクエストは
+// 20/40/60/120/250/330/500/960/1280/1920/3840px 以外だと400エラーになる)。
+// この一覧の中から用途に合う幅を選ぶこと。
+const WIKIMEDIA_ALLOWED_WIDTHS = [20, 40, 60, 120, 250, 330, 500, 960, 1280, 1920, 3840];
+function wikimediaThumbUrl(url, width) {
+  const m = url.match(/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/([0-9a-f])\/([0-9a-f]{2})\/(.+)$/);
+  if (!m) return url;
+  const [, d1, d2, filename] = m;
+  return `https://upload.wikimedia.org/wikipedia/commons/thumb/${d1}/${d2}/${filename}/${width}px-${filename}`;
+}
+
+function photoImg(insect, className, width) {
+  const rawUrl = insect.image && insect.image.url ? insect.image.url : null;
   const fit = insect.image && insect.image.fit ? insect.image.fit : "contain";
-  return `<img src="${src}" alt="${insect.name}" class="${className}" style="object-fit: ${fit};" loading="lazy" onerror="this.src='${PLACEHOLDER_SVG}'">`;
+  if (!rawUrl) {
+    return `<img src="${PLACEHOLDER_SVG}" alt="${insect.name}" class="${className}" style="object-fit: ${fit};" loading="lazy">`;
+  }
+  const src = wikimediaThumbUrl(rawUrl, width || 250);
+  // サムネイル生成に失敗したら元画像(フル解像度)にフォールバックし、それも失敗したらプレースホルダーにする
+  const onerror = `this.onerror=function(){this.src='${PLACEHOLDER_SVG}'};this.src='${rawUrl}'`;
+  return `<img src="${src}" alt="${insect.name}" class="${className}" style="object-fit: ${fit};" loading="lazy" onerror="${onerror}">`;
+}
+
+function regionEmoji(insect) {
+  return insect.region === "world" ? "🌎" : "🗾";
+}
+function regionLabel(insect) {
+  return insect.region === "world" ? "🌎 せかいの むし" : "🗾 にほんの むし";
 }
 
 // ---- 状態の保存(できた・おきにいり・くいずクリア) ----
@@ -302,9 +327,9 @@ function renderTodayCard() {
   const insect = INSECTS[dayOfYear % INSECTS.length];
   todayCardEl.dataset.id = insect.id;
   todayCardEl.innerHTML = `
-    ${photoImg(insect, "today-photo")}
+    ${photoImg(insect, "today-photo", 120)}
     <div>
-      <div class="today-label">★ きょうの むし</div>
+      <div class="today-label">★ きょうの むし ${regionEmoji(insect)}</div>
       <div class="today-name">${insect.name}</div>
       <div class="today-sub">タップして きいてみよう</div>
     </div>`;
@@ -340,7 +365,8 @@ function cardHTML(insect) {
       <div class="card-photo-wrap">
         ${seen ? '<div class="seen-badge">できた</div>' : ""}
         <button class="card-fav-btn ${fav ? "active" : ""}" data-fav-id="${insect.id}" aria-label="おきにいり">${fav ? "❤️" : "🤍"}</button>
-        ${photoImg(insect, "card-photo")}
+        <div class="region-badge">${regionEmoji(insect)}</div>
+        ${photoImg(insect, "card-photo", 250)}
       </div>
       <div class="card-name">${insect.name}</div>
     </div>`;
@@ -478,8 +504,9 @@ function updateFavBtn() {
 }
 function openDetail(insect) {
   currentDetailInsect = insect;
-  detailIconEl.innerHTML = photoImg(insect, "detail-photo");
+  detailIconEl.innerHTML = photoImg(insect, "detail-photo", 500);
   detailNameEl.textContent = insect.name;
+  detailRegionEl.textContent = regionLabel(insect);
   detailScientificEl.textContent = insect.scientificName || "";
   detailDescEl.textContent = insect.desc;
   updateFavBtn();
@@ -587,7 +614,7 @@ function nextQuizQuestion() {
   quizCurrent = { correct, choices, attempt: 0 };
   quizQuestionEl.textContent = `${correct.name} は どれかな？`;
   quizChoicesEl.innerHTML = choices
-    .map((insect) => `<button class="quiz-choice" data-id="${insect.id}">${photoImg(insect, "quiz-choice-img")}</button>`)
+    .map((insect) => `<button class="quiz-choice" data-id="${insect.id}">${photoImg(insect, "quiz-choice-img", 250)}</button>`)
     .join("");
   playQuizAudio(`audio/quiz-${correct.id}.wav`, `${correct.name} は どれかな？`);
 }
